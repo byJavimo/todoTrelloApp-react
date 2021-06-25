@@ -1,0 +1,16 @@
+.boards-manager {
+    display: flex;
+    .select-board-input {
+        left: 0;
+        width: 100%;
+        flex: 1;
+    }
+
+    .tasks-list {
+        flex: 1;
+    }
+
+    .tasks-column {
+        margin: 0 auto;
+    }
+}

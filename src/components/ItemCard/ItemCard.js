@@ -5,9 +5,8 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DeleteIcon from '@material-ui/icons/Delete';
-import UpdateTaskModal from '../../components/UpdateTaskModal/UdateTaskModal.js';
+import UpdateTaskModal from '../UpdateTaskModal/UdateTaskModal.js';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -18,7 +17,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function TaskCard({taskName, taskDate}) {
+export default function TaskCard(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -34,20 +33,13 @@ export default function TaskCard({taskName, taskDate}) {
     console.log('Delete task!');
   };
 
-
-
   return (
     <>
       <UpdateTaskModal open={open} onHandleClose={closeUpdateTaskModal}></UpdateTaskModal>
       <Card className={classes.root}>
         <CardHeader
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title={taskName}
-          subheader={taskDate}
+          title={props.name}
+          subheader={props.date}
         />
 
         <CardActions disableSpacing className={classes.actions}>

@@ -1,9 +1,23 @@
+@import '../../styles/colors.scss';
+
 .boards-manager {
     display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+
     .select-board-input {
         left: 0;
-        width: 100%;
+        width: 30%;
         flex: 1;
+
+        #board-simple-select-label {
+            color: $main-color-light
+        }
+
+        .MuiInput-underline:hover:not(.Mui-disabled):before, .MuiInput-underline:after  {
+            border-bottom: $main-color-light 2px solid;
+        }
+        
     }
 
     .tasks-list {
@@ -12,5 +26,15 @@
 
     .tasks-column {
         margin: 0 auto;
+    }
+
+    .add-task-button {
+        background-color: $main-color-light;
+        color: $white;
+
+        &:hover {
+            background-color: $white;
+            color: $main-color-light;
+        }
     }
 }

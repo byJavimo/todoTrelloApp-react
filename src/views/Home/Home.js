@@ -2,18 +2,37 @@ import ItemCard from '../../components/ItemCard/ItemCard.js';
 import './Home.scss';
 
 const Home = () => {
-    const deleteTask = (event) => {
+    const deleteBoard= (event) => {
       console.log('Delete task', event.target.value);
     };
 
-    const updateTask = (event) => {
+    const updateBoard= (event) => {
       console.log('Update task', event.target.value);
     };
 
-    const boards = [];
+    const boards = [
+      {
+        id: 0,
+        name: 'Tablero 1'
+      },
+      {
+        id: 1,
+        name: 'Tablero 2'
+      },
+      {
+        id: 2,
+        name: 'Tablero 3'
+      }
+    ];
 
     const hasBoards = () => {
       return boards.length;
+    }
+
+    const mapBoards = () => {
+      return boards.map((board) => {
+        return <ItemCard name={board.name}  deleteAction={deleteBoard} updateAction={updateBoard} />;
+      })
     }
 
     return (
@@ -21,7 +40,8 @@ const Home = () => {
         <h1> Home </h1>
         {hasBoards() ?
           <div className="card">
-            <ItemCard  name="Tarea 1" date="Hola" deleteAction={deleteTask} updateAction={updateTask}/>
+            
+            {mapBoards()}
             <br></br>
           </div>
         :

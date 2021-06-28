@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateTaskModal from '../UpdateTaskModal/UdateTaskModal.js';
+import RemoveWarningModal from '../RemoveWarningModal/RemoveWarningModal.js';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -17,36 +18,46 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function TaskCard(props) {
+export default function ItemCard({item, deleteAction, updateAction}) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [openUpdateModal, setOpenUpdateModal] = React.useState(false);
+  const [openRemoveModal, setOpenRemoveModal] = React.useState(false);
 
-  const openUpdateTaskModal = () => {
-    setOpen(true);
+  const openUpdateItemModal = () => {
+    setOpenUpdateModal(true);
   };
 
-  const closeUpdateTaskModal = () => {
-    setOpen(false);
+  const closeUpdateItemModal = () => {
+    setOpenUpdateModal(false);
   };
-  
+
+  const openRemoveItemModal = () => {
+    setOpenRemoveModal(true);
+  };
+
+  const closeRemoveItemModal = () => {
+    setOpenRemoveModal(false);
+  };
+
   const deleteTask = () => {
-    console.log('Delete task!');
-  };
+    deleteAction(item.id);
+  }
 
   return (
-    <>
-      <UpdateTaskModal open={open} onHandleClose={closeUpdateTaskModal}></UpdateTaskModal>
-      <Card className={classes.root}>
+    <> 
+      <RemoveWarningModal open={openRemoveModal} onHandleClose={closeRemoveItemModal} onRemoveItem={deleteTask}></RemoveWarningModal>
+      <UpdateTaskModal open={openUpdateModal} onHandleClose={closeUpdateItemModal} onUpdateTask={updateAction}></UpdateTaskModal>
+      <Card className={classes.root} id={item.id}>
         <CardHeader
-          title={props.name}
-          subheader={props.date}
+          title={item.name}
+          subheader={item.date}
         />
 
         <CardActions disableSpacing className={classes.actions}>
-          <IconButton aria-label="edit" onClick={openUpdateTaskModal}>
+          <IconButton aria-label="edit" onClick={openUpdateItemModal}>
             <EditIcon />
           </IconButton>
-          <IconButton aria-label="delete" onClick={deleteTask}>
+          <IconButton aria-label="delete" onClick={openRemoveItemModal}>
             <DeleteIcon />
           </IconButton>
         </CardActions>

@@ -1,3 +1,13 @@
-#create-task-modal > div.makeStyles-paper-7 > form > div {
-    width: 100%;
+#create-task-modal {
+
+    .MuiInput-underline:after {
+        border-bottom: 2px solid black;
+    }
+
+    .full-width {
+        width: 100%;
+        .MuiFormControl-root {
+            min-width: 100%;
+        }
+    }
 }

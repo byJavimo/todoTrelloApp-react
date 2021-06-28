@@ -1,8 +1,4 @@
 import React from 'react';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -12,12 +8,61 @@ import CreateTaskModal from '../../components/CreateTaskModal/CreateTaskModal.js
 import './BoardsManager.scss';
 
 const BoardsManager = () => {
-  const [board, setBoard] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const [tasks, setTasks] = React.useState(
+    [
+      {
+        id: 0,
+        status: 0,
+        name: 'Tarea 1',
+        boardId: 1,
+        date: '22/06/2021'
+      },
+      {
+        id: 1,
+        status: 2,
+        name: 'Tarea 2',
+        boardId: 1,
+        date: '22/06/2021'
+      },
+      {
+        id: 2,
+        status: 2,
+        name: 'Tarea 3',
+        boardId: 1,
+        date: '22/06/2021'
+      },
+      {
+        id: 3,
+        status: 2,
+        name: 'Tarea 3',
+        boardId: 1,
+        date: '22/06/2021'
+      }
+    ]
+  )
 
-  const selectBoard = (event) => {
-    setBoard(event.target.value);
-  };
+  const handleTaskCreation = (task) => {
+    task.id = tasks.length + 1;
+    task.date = Date.now()
+    tasks.push(task);
+    setTasks(tasks);
+  }
+
+  const handleTaskRemoval = (taskId) => {
+    const newTasks = tasks.filter((task) => {
+      if (task.id !== taskId) {
+        return task;
+      }
+    })
+    setTasks(newTasks);
+  }
+
+  const handleUpdateTask = (task) => {
+    const foundIndex = tasks.findIndex(x => x.id === task.id);
+    tasks[foundIndex] = task;
+    setTasks(tasks);
+  }
 
   const handleOpenCreateTaskModal = () => {
     setOpen(true);
@@ -27,81 +72,26 @@ const BoardsManager = () => {
     setOpen(false);
   };
 
-  const deleteTask = (event) => {
-    console.log('Delete task', event.target.value);
-  };
-
-  const updateTask = (event) => {
-    console.log('Update task', event.target.value);
-  };
-
-  // const tasks = [
-  //   {
-  //     id: 0,
-  //     status: 0,
-  //     name: 'Tarea 1',
-  //     boardId: 1,
-  //     date: '22/06/2021'
-  //   },
-  //   {
-  //     id: 2,
-  //     status: 2,
-  //     name: 'Tarea 2',
-  //     boardId: 1,
-  //     date: '22/06/2021'
-  //   },
-  //   {
-  //     id: 2,
-  //     status: 2,
-  //     name: 'Tarea 3',
-  //     boardId: 1,
-  //     date: '22/06/2021'
-  //   },
-  //   {
-  //     id: 2,
-  //     status: 2,
-  //     name: 'Tarea 3',
-  //     boardId: 1,
-  //     date: '22/06/2021'
-  //   }
-  // ]
-
-  const tasks = [];
-
   const hasTasks = () => {
     return tasks.length > 0;
   }
   
   const mapTasksByStatus = (status) => {
-    console.log(status);
-    return tasks.map((item) => {
+    return tasks.map((item, key) => {
       if (item.status === status) {
-        return <ItemCard name={item.name} date={item.date}></ItemCard>
+        return <ItemCard key={key}
+                         item={item}
+                         deleteAction={handleTaskRemoval}
+                         updateAction={handleUpdateTask}></ItemCard>
       }
     })
 
   }
-
     return (
       <div className='boards-manager'>
-        <CreateTaskModal open={open} onHandleClose={handleCloseCreateTaskModal}/>
+        <CreateTaskModal open={open} onHandleClose={handleCloseCreateTaskModal} onCreateTask={handleTaskCreation}/>
         <Grid container spacing={3}>
-          <Grid item xs={6}>
-            <FormControl className="select-board-input">
-              <InputLabel id="board-simple-select-label">Select board</InputLabel>
-              <Select
-                labelId="board-simple-select-label"
-                id="board-simple-select"
-                value={board}
-                onChange={selectBoard}
-              >
-                <MenuItem value={1}> Tablero 1</MenuItem>
-                <MenuItem value={2}> Board 2</MenuItem>
-                <MenuItem value={3}> Board 3</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Button
               variant="contained" 
               size="large"

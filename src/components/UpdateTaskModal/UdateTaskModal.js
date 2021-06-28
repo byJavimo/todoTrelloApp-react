@@ -1,7 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Modal from '@material-ui/core/Modal';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
 
 function getModalStyle() {
     const top = 50;
@@ -24,16 +29,58 @@ function getModalStyle() {
     }
   }));
   
-  export default function UpdateTaskModal({open, onHandleClose}) {
+  export default function UpdateTaskModal({open, task, onHandleClose, onUpdateTask}) {
     const classes = useStyles();
+    const [status, setStatus] = React.useState(0);
+    const [taskName, setTaskName] = React.useState('');
+
+    const selectStatus = (event) => {
+      setStatus(event.target.value);
+    };
+
+    const handleChange = (event) => {
+      task.name = event.target.value;
+      setTaskName(taskName);
+    }
+
+    const updateTask = () => {
+      if (task) {
+          task.status = status;
+          onUpdateTask(task);
+      }
+      onHandleClose();
+    }
+
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = React.useState(getModalStyle);  
     const body = (
       <div style={modalStyle} className={classes.paper}>
         <h2 id="update-task-modal-title">Update task</h2>
-        <form className={classes.form} noValidate autoComplete="off">
-            <TextField id="input-field-task" label="Enter your task" variant="outlined" />
-        </form>
+        <form>
+              <div className="full-width">
+                <FormControl className="select-board-input">
+                <InputLabel id="status-simple-select-label">Select status</InputLabel>
+                  <Select
+                    labelId="status-simple-select-label"
+                    id="status-simple-select"
+                    value={status}
+                    onChange={selectStatus}
+                  >
+                    <MenuItem value={0}> Todo </MenuItem>
+                    <MenuItem value={1}> In progress</MenuItem>
+                    <MenuItem value={2}> Done </MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="full-width">
+                <Input className="input-field-task-name" onChange={handleChange} placeholder="Enter task"></Input>
+              </div>
+              <div className="full-width">
+                <Button onClick={updateTask}> 
+                  Update
+                </Button>
+              </div>
+            </form>
         <UpdateTaskModal />
       </div>
     );

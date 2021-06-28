@@ -31,7 +31,7 @@ const Home = () => {
 
     const mapBoards = () => {
       return boards.map((board) => {
-        return <ItemCard name={board.name}  deleteAction={deleteBoard} updateAction={updateBoard} />;
+        return <ItemCard item={board}  deleteAction={deleteBoard} updateAction={updateBoard} />;
       })
     }
 

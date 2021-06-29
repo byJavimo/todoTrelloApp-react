@@ -46,7 +46,7 @@ function getModalStyle() {
     }
   }));
   
-  export default function UpdateTaskModal({open, item, onHandleClose, showStatusSectiom, onUpdateTask}) {
+  export default function UpdateTaskModal({open, item, onHandleClose, showStatusSection, onUpdateTask}) {
     const classes = useStyles();
     const [status, setStatus] = React.useState(0);
     let [taskName, setTaskName] = React.useState('');
@@ -76,7 +76,7 @@ function getModalStyle() {
         <h2 id="update-task-modal-title">Update</h2>
         <form>
               {
-                showStatusSectiom ? 
+                showStatusSection ? 
                 <FormControl fullWidth margin="dense">
                 <InputLabel id="status-simple-select-label" className={classes.selectLabel}>Select status</InputLabel>
                 <Select

@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function ItemCard({item, deleteAction, updateAction}) {
+export default function ItemCard({item, deleteAction, updateAction, isTask}) {
   const classes = useStyles();
   const [openUpdateModal, setOpenUpdateModal] = React.useState(false);
   const [openRemoveModal, setOpenRemoveModal] = React.useState(false);
@@ -46,7 +46,7 @@ export default function ItemCard({item, deleteAction, updateAction}) {
   return (
     <> 
       <RemoveWarningModal open={openRemoveModal} onHandleClose={closeRemoveItemModal} onRemoveItem={deleteTask}></RemoveWarningModal>
-      <UpdateItemModal open={openUpdateModal} item={item} onHandleClose={closeUpdateItemModal} onUpdateTask={updateAction}></UpdateItemModal>
+      <UpdateItemModal open={openUpdateModal} item={item} onHandleClose={closeUpdateItemModal} onUpdateTask={updateAction} showStatusSection={isTask}></UpdateItemModal>
       <Card className={classes.root} id={item.id}>
         <CardHeader
           title={item.name}

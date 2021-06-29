@@ -2,7 +2,9 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+
 import moment from 'moment';
+import { DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 
 import ItemCard from '../../components/ItemCard/ItemCard.js';
 import CreateItemModal from '../../components/CreateItemModal/CreateItemModal.js';
@@ -98,10 +100,15 @@ const BoardsManager = (props) => {
   const mapTasksByStatus = (status) => {
     return tasks.map((item, key) => {
       if (item.status === status) {
-        return <ItemCard key={key}
-                         item={item}
-                         deleteAction={handleTaskRemoval}
-                         updateAction={handleUpdateTask}></ItemCard>
+        return  <ItemCard key={key}
+                          item={item}
+                          deleteAction={handleTaskRemoval}
+                          updateAction={handleUpdateTask}
+                          isTask={true}>
+                </ItemCard>
+            
+            
+                  
       }
     })
 
@@ -122,24 +129,31 @@ const BoardsManager = (props) => {
           </Grid>
           {hasTasks() ? 
           <Grid container>
-              <Grid item xs={4} className="tasks-colum">
-                <h2> Todo </h2>
-                <div className="tasks-list">
-                  {mapTasksByStatus(0).length >= 1 ? mapTasksByStatus(0) : <p> No items </p>}
-                </div>
-              </Grid>
-              <Grid item xs={4} className="tasks-colum">
-                <h2> In progress </h2>
-                <div className="tasks-list">
-                  {mapTasksByStatus(1).length >= 1  ? mapTasksByStatus(1) : <p> No items </p>}
-                </div>
-              </Grid>
-              <Grid item xs={4} className="tasks-colum">
-                <h2> Done </h2>
-                <div className="tasks-list">
-                  {mapTasksByStatus(2).length >= 1 ? mapTasksByStatus(2) : <p> No items </p>}
-                </div>
-              </Grid>
+     
+               
+           
+            <Grid item xs={4} className="tasks-column">
+              <h2> Todo </h2>
+              <div className="tasks-list">
+                {mapTasksByStatus(0).length >= 1 ? mapTasksByStatus(0) : <p> No items </p>}
+              </div>
+            </Grid>
+            <Grid item xs={4} className="tasks-column">
+              <h2> In progress </h2>
+              <div className="tasks-list">
+                {mapTasksByStatus(1).length >= 1  ? mapTasksByStatus(1) : <p> No items </p>}
+              </div>
+            </Grid>
+            <Grid item xs={4} className="tasks-column">
+              <h2> Done </h2>
+              <div className="tasks-list">
+                {mapTasksByStatus(2).length >= 1 ? mapTasksByStatus(2) : <p> No items </p>}
+              </div>
+            </Grid>
+                    
+               
+             
+       
             </Grid> :
             <Grid container>
               <Grid item xs={12}>

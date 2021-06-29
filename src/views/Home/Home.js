@@ -1,16 +1,10 @@
+
+import React from 'react';
 import ItemCard from '../../components/ItemCard/ItemCard.js';
 import './Home.scss';
 
 const Home = () => {
-    const deleteBoard= (event) => {
-      console.log('Delete task', event.target.value);
-    };
-
-    const updateBoard= (event) => {
-      console.log('Update task', event.target.value);
-    };
-
-    const boards = [
+  const [boards, setBoards] = React.useState([
       {
         id: 0,
         name: 'Tablero 1'
@@ -23,15 +17,37 @@ const Home = () => {
         id: 2,
         name: 'Tablero 3'
       }
-    ];
+  ]);
+
+    // const handleTaskCreation = (task) => {
+    //   task.id = tasks.length + 1;
+    //   task.date = Date.now()
+    //   tasks.push(task);
+    //   setTasks(tasks);
+    // }
+  
+    const handleUpdateBoard = (board) => {
+      const foundIndex = boards.findIndex(x => x.id === board.id);
+      board[foundIndex] = board;
+      setBoards(boards);
+    }
+  
+    const handleBoardRemoval = (boardId) => {
+      const newBoards = boards.filter((board) => {
+        if (board.id !== boardId) {
+          return board;
+        }
+      })
+      setBoards(newBoards);
+    }
 
     const hasBoards = () => {
       return boards.length;
     }
 
     const mapBoards = () => {
-      return boards.map((board) => {
-        return <ItemCard item={board}  deleteAction={deleteBoard} updateAction={updateBoard} />;
+      return boards.map((board, key) => {
+        return <ItemCard key={key} item={board}  deleteAction={handleBoardRemoval} updateAction={handleUpdateBoard} />;
       })
     }
 

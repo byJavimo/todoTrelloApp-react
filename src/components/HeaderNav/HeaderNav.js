@@ -9,6 +9,20 @@ import './HeaderNav.scss';
 
 
 export default function HeaderNav() {
+  const boards = [
+    {
+      id: 1,
+      name: 'Tablero 1'
+    },
+    {
+      id: 2,
+      name: 'Tablero 2'
+    },
+    {
+      id: 3,
+      name: 'Tablero 3'
+    }
+  ];
     return (
       <div>
         <AppBar position="static" >
@@ -19,7 +33,7 @@ export default function HeaderNav() {
                 </Link>
             </IconButton>
             <Button className="header-nav-button">
-                <Link className="header-nav-link" to="/boards-manager"> BoardsManager </Link>
+                <Link className="header-nav-link" to={'/boards-manager/'+ boards[0].id}> BoardsManager </Link>
             </Button>
           </Toolbar>
         </AppBar>

@@ -1,12 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
 
 function getModalStyle() {
     const top = 50;
@@ -29,6 +24,18 @@ function getModalStyle() {
     },
     title: {
         color: 'red'
+    },
+    buttonSucccess: {
+      float: 'right',
+      color: '#fff',
+      backgroundColor: '#60afdd',
+      margin: theme.spacing(1)
+    },
+    buttonDanger: {
+      float: 'right',
+      color: '#fff',
+      backgroundColor: 'red',
+      margin: theme.spacing(1)
     }
   }));
   
@@ -52,18 +59,13 @@ function getModalStyle() {
           aria-labelledby="create-task-modal-title"
         >
           <div style={modalStyle}  className={classes.modal}>
-            <h2 id="create-task-modal-title">Remove task</h2>
-            <div className="full-width">
-                <h3 className={classes.title}> Are you sure you want to remove this item? </h3>
-            </div>
-            <div className="full-width">
-                <Button onClick={deleteTask}> 
-                    Accept
-                </Button>
-                <Button onClick={onHandleClose}> 
-                    Cancel
-                </Button>
-            </div>
+              <h3 className={classes.title}> Are you sure you want to remove this item? </h3>
+              <Button onClick={deleteTask} className={classes.buttonSucccess} variant="contained"> 
+                  Accept
+              </Button>
+              <Button onClick={onHandleClose} className={classes.buttonDanger} variant="contained"> 
+                  Cancel
+              </Button>
             <RemoveWarningModal />
           </div>
         </Modal>

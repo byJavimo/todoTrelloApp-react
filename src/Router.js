@@ -13,7 +13,7 @@ class Router extends Component {
                 <HeaderNav />
                 <Switch>
                     <Route path="/home" component={Home} exact /> 
-                    <Route path="/boards-manager" component={BoardsManager} exact /> 
+                    <Route path="/boards-manager/:id" component={BoardsManager} exact /> 
                     <Route path="*" component={Error404} exact />
                 </Switch>
             </BrowserRouter>

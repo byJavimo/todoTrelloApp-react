@@ -20,12 +20,29 @@ function getModalStyle() {
   }
   
   const useStyles = makeStyles((theme) => ({
-    modal: {
+    paper: {
       position: 'absolute',
       width: 400,
       backgroundColor: theme.palette.background.paper,
       boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3)
+      padding: theme.spacing(2, 4, 3),
+    },
+    selectLabel: {
+      color: '#60afdd'
+    },
+    select: {
+      width: 350,
+      margin: theme.spacing(1)
+    },
+    input: {
+      width: 350,
+      margin: theme.spacing(1)
+    },
+    button: {
+      float: 'right',
+      color: '#fff',
+      backgroundColor: '#60afdd',
+      margin: theme.spacing(1)
     }
   }));
   
@@ -46,7 +63,7 @@ function getModalStyle() {
     const createTask = (event) => {
       if (task.name) {
           task.status = status;
-          task.boardId = 1;
+          task.boardId = 1
           onCreateTask(task);
           setTask({});
       }
@@ -64,32 +81,26 @@ function getModalStyle() {
           onClose={onHandleClose}
           aria-labelledby="create-task-modal-title"
         >
-          <div style={modalStyle}  className={classes.modal}>
-            <h2 id="create-task-modal-title">Add task</h2>
+          <div style={modalStyle}  className={classes.paper}>
+            <h2 id="create-task-modal-title">Create</h2>
             <form>
-              <div className="full-width">
-                <FormControl className="select-board-input">
-                <InputLabel id="status-simple-select-label">Select status</InputLabel>
-                  <Select
-                    labelId="status-simple-select-label"
-                    id="status-simple-select"
-                    value={status}
-                    onChange={selectStatus}
-                  >
-                    <MenuItem value={0}> Todo </MenuItem>
-                    <MenuItem value={1}> In progress</MenuItem>
-                    <MenuItem value={2}> Done </MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-              <div className="full-width">
-                <Input className="input-field-task-name" onChange={handleChange} placeholder="Enter task"></Input>
-              </div>
-              <div className="full-width">
-                <Button onClick={createTask}>
-                  Send
-                </Button>
-              </div>
+              <FormControl className={classes.select}>
+              <InputLabel id="status-simple-select-label" className={classes.selectLabel}>Select status</InputLabel>
+                <Select
+                  labelId="status-simple-select-label"
+                  id="status-simple-select"
+                  value={status}
+                  onChange={selectStatus}
+                >
+                  <MenuItem value={0}> Todo </MenuItem>
+                  <MenuItem value={1}> In progress</MenuItem>
+                  <MenuItem value={2}> Done </MenuItem>
+                </Select>
+              </FormControl>
+              <Input className={classes.input} onChange={handleChange} placeholder="Enter task"></Input>           
+              <Button className={classes.button} onClick={createTask} variant="contained">
+                Create
+              </Button>
             </form>
             <CreateTaskModal />
           </div>

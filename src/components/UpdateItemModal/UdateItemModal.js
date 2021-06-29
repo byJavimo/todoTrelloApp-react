@@ -26,27 +26,45 @@ function getModalStyle() {
       backgroundColor: theme.palette.background.paper,
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
+    },
+    selectLabel: {
+      color: '#60afdd'
+    },
+    select: {
+      width: 350,
+      margin: theme.spacing(1)
+    },
+    input: {
+      width: 350,
+      margin: theme.spacing(1)
+    },
+    button: {
+      float: 'right',
+      color: '#fff',
+      backgroundColor: '#60afdd',
+      margin: theme.spacing(1)
     }
   }));
   
-  export default function UpdateTaskModal({open, task, onHandleClose, onUpdateTask}) {
+  export default function UpdateTaskModal({open, item, onHandleClose, showStatusSectiom, onUpdateTask}) {
     const classes = useStyles();
     const [status, setStatus] = React.useState(0);
-    const [taskName, setTaskName] = React.useState('');
+    let [taskName, setTaskName] = React.useState('');
 
     const selectStatus = (event) => {
       setStatus(event.target.value);
     };
 
     const handleChange = (event) => {
-      task.name = event.target.value;
+      taskName = event.target.value;
       setTaskName(taskName);
     }
 
     const updateTask = () => {
-      if (task) {
-          task.status = status;
-          onUpdateTask(task);
+      if (item) {
+          item.name = taskName ? taskName : item.name;
+          item.status = status;
+          onUpdateTask(item);
       }
       onHandleClose();
     }
@@ -55,31 +73,33 @@ function getModalStyle() {
     const [modalStyle] = React.useState(getModalStyle);  
     const body = (
       <div style={modalStyle} className={classes.paper}>
-        <h2 id="update-task-modal-title">Update task</h2>
+        <h2 id="update-task-modal-title">Update</h2>
         <form>
-              <div className="full-width">
-                <FormControl className="select-board-input">
-                <InputLabel id="status-simple-select-label">Select status</InputLabel>
-                  <Select
-                    labelId="status-simple-select-label"
-                    id="status-simple-select"
-                    value={status}
-                    onChange={selectStatus}
-                  >
-                    <MenuItem value={0}> Todo </MenuItem>
-                    <MenuItem value={1}> In progress</MenuItem>
-                    <MenuItem value={2}> Done </MenuItem>
-                  </Select>
+              {
+                showStatusSectiom ? 
+                <FormControl fullWidth margin="dense">
+                <InputLabel id="status-simple-select-label" className={classes.selectLabel}>Select status</InputLabel>
+                <Select
+                  labelId="status-simple-select-label"
+                  id="status-simple-select"
+                  value={status}
+                  onChange={selectStatus}
+                >
+                  <MenuItem value={0}> Todo </MenuItem>
+                  <MenuItem value={1}> In progress</MenuItem>
+                  <MenuItem value={2}> Done </MenuItem>
+                </Select>
                 </FormControl>
-              </div>
-              <div className="full-width">
-                <Input className="input-field-task-name" onChange={handleChange} placeholder="Enter task"></Input>
-              </div>
-              <div className="full-width">
-                <Button onClick={updateTask}> 
-                  Update
-                </Button>
-              </div>
+                :
+                ''
+              }
+              
+              <br></br>
+              <Input fullWidth onChange={handleChange} placeholder="Change task name..."></Input>
+
+              <Button className={classes.button} onClick={updateTask}> 
+                Update
+              </Button>
             </form>
         <UpdateTaskModal />
       </div>

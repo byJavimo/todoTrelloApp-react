@@ -6,7 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import UpdateTaskModal from '../UpdateTaskModal/UdateTaskModal.js';
+import UpdateItemModal from '../UpdateItemModal/UdateItemModal.js';
 import RemoveWarningModal from '../RemoveWarningModal/RemoveWarningModal.js';
 
 const useStyles = makeStyles(() => ({
@@ -46,7 +46,7 @@ export default function ItemCard({item, deleteAction, updateAction}) {
   return (
     <> 
       <RemoveWarningModal open={openRemoveModal} onHandleClose={closeRemoveItemModal} onRemoveItem={deleteTask}></RemoveWarningModal>
-      <UpdateTaskModal open={openUpdateModal} onHandleClose={closeUpdateItemModal} onUpdateTask={updateAction}></UpdateTaskModal>
+      <UpdateItemModal open={openUpdateModal} item={item} onHandleClose={closeUpdateItemModal} onUpdateTask={updateAction}></UpdateItemModal>
       <Card className={classes.root} id={item.id}>
         <CardHeader
           title={item.name}

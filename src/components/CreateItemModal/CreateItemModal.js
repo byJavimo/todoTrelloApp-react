@@ -46,7 +46,7 @@ function getModalStyle() {
     }
   }));
   
-  export default function CreateTaskModal({open, onHandleClose, onCreateTask}) {
+  export default function CreateTaskModal({open, onHandleClose, onCreateTask, showStatusSection}) {
     const classes = useStyles();
     const [task, setTask] = React.useState({});
     const [status, setStatus] = React.useState(0);
@@ -84,19 +84,23 @@ function getModalStyle() {
           <div style={modalStyle}  className={classes.paper}>
             <h2 id="create-task-modal-title">Create</h2>
             <form>
-              <FormControl className={classes.select}>
-              <InputLabel id="status-simple-select-label" className={classes.selectLabel}>Select status</InputLabel>
-                <Select
-                  labelId="status-simple-select-label"
-                  id="status-simple-select"
-                  value={status}
-                  onChange={selectStatus}
-                >
-                  <MenuItem value={0}> Todo </MenuItem>
-                  <MenuItem value={1}> In progress</MenuItem>
-                  <MenuItem value={2}> Done </MenuItem>
-                </Select>
-              </FormControl>
+              {showStatusSection ? 
+                <FormControl className={classes.select}>
+                <InputLabel id="status-simple-select-label" className={classes.selectLabel}>Select status</InputLabel>
+                  <Select
+                    labelId="status-simple-select-label"
+                    id="status-simple-select"
+                    value={status}
+                    onChange={selectStatus}
+                  >
+                    <MenuItem value={0}> Todo </MenuItem>
+                    <MenuItem value={1}> In progress</MenuItem>
+                    <MenuItem value={2}> Done </MenuItem>
+                  </Select>
+                </FormControl> :
+                ''
+              }
+     
               <Input className={classes.input} onChange={handleChange} placeholder="Enter task"></Input>           
               <Button className={classes.button} onClick={createTask} variant="contained">
                 Create

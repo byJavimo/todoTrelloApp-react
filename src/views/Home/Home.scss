@@ -1,5 +1,16 @@
+@import '../../styles/colors.scss';
+
 .card {
     max-width: 50%;
     margin: 0 auto;
-    cursor: pointer;
+}
+
+button.add-board-button {
+    background-color: $main-color-light;
+    color: $white;
+
+    &:hover {
+        background-color: $white;
+        color: $main-color-light;
+    }
 }

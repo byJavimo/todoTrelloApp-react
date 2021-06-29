@@ -3,67 +3,18 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
-import moment from 'moment';
-import { DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-
 import ItemCard from '../../components/ItemCard/ItemCard.js';
 import CreateItemModal from '../../components/CreateItemModal/CreateItemModal.js';
+import TasksService from '../../services/TasksService.js';
 import './BoardsManager.scss';
 
 const BoardsManager = (props) => {
   const [open, setOpen] = React.useState(false);
-  const [tasks, setTasks] = React.useState(
-    [
-      {
-        id: 0,
-        status: 0,
-        name: 'Tarea 1',
-        boardId: 1,
-        date: '22/06/2021'
-      },
-      {
-        id: 1,
-        status: 2,
-        name: 'Tarea 2',
-        boardId: 1,
-        date: '22/06/2021'
-      },
-      {
-        id: 2,
-        status: 2,
-        name: 'Tarea 3',
-        boardId: 2,
-        date: '22/06/2021'
-      },
-      {
-        id: 3,
-        status: 2,
-        name: 'Tarea 3',
-        boardId: 1,
-        date: '22/06/2021'
-      }
-    ]
-  )
-
-
-  React.useEffect(function() {
-    return function getTasksByBoardId () {
-       const newTasks = tasks.filter((task) => {
-        if (task.boardId !== props.match.params.id) {
-          return task;
-        }
-      });
-      setTasks(newTasks);
-      console.log(tasks)
-    }
-   
-  },[props])
-
-
+  const [tasks, setTasks] = React.useState(TasksService.getTasksByBoardId(props.match.params.id));
 
   const handleTaskCreation = (task) => {
     task.id = tasks.length + 1;
-    task.date = moment(Date.now()).format("MMM Do YY");  
+    task.date = Date.now();  
     tasks.push(task);
     setTasks(tasks);
   }
@@ -105,17 +56,14 @@ const BoardsManager = (props) => {
                           deleteAction={handleTaskRemoval}
                           updateAction={handleUpdateTask}
                           isTask={true}>
-                </ItemCard>
-            
-            
-                  
+                </ItemCard>         
       }
     })
 
   }
     return (
       <div className='boards-manager'>
-        <CreateItemModal open={open} onHandleClose={handleCloseCreateTaskModal} onCreateTask={handleTaskCreation}/>
+        <CreateItemModal open={open} onHandleClose={handleCloseCreateTaskModal} onCreateTask={handleTaskCreation} showStatusSection={true}/>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Button

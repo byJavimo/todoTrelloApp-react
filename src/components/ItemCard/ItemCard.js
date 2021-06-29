@@ -8,6 +8,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UpdateItemModal from '../UpdateItemModal/UdateItemModal.js';
 import RemoveWarningModal from '../RemoveWarningModal/RemoveWarningModal.js';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -18,7 +20,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function ItemCard({item, deleteAction, updateAction, isTask}) {
+export default function ItemCard({item, deleteAction, updateAction, isTask, ...props}) {
   const classes = useStyles();
   const [openUpdateModal, setOpenUpdateModal] = React.useState(false);
   const [openRemoveModal, setOpenRemoveModal] = React.useState(false);
@@ -43,6 +45,10 @@ export default function ItemCard({item, deleteAction, updateAction, isTask}) {
     deleteAction(item.id);
   }
 
+  const redirectTo = () => {
+    props.goTo(item.id);
+  }
+
   return (
     <> 
       <RemoveWarningModal open={openRemoveModal} onHandleClose={closeRemoveItemModal} onRemoveItem={deleteTask}></RemoveWarningModal>
@@ -50,10 +56,16 @@ export default function ItemCard({item, deleteAction, updateAction, isTask}) {
       <Card className={classes.root} id={item.id}>
         <CardHeader
           title={item.name}
-          subheader={item.date}
+          subheader={moment(item.date).format("MMM Do YY")}
         />
-
         <CardActions disableSpacing className={classes.actions}>
+          {props.allowRedirection ?
+                  <IconButton aria-label="goTo" onClick={redirectTo}>
+                  <ArrowForwardIosIcon />
+                </IconButton>
+          : ''
+          }
+  
           <IconButton aria-label="edit" onClick={openUpdateItemModal}>
             <EditIcon />
           </IconButton>

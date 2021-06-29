@@ -1,30 +1,35 @@
 
 import React from 'react';
 import ItemCard from '../../components/ItemCard/ItemCard.js';
+import BoardsService from "../../services/BoardsService.js";
+import CreateItemModal from '../../components/CreateItemModal/CreateItemModal.js';
+import Button from '@material-ui/core/Button';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+
 import './Home.scss';
 
-const Home = () => {
-  const [boards, setBoards] = React.useState([
-      {
-        id: 0,
-        name: 'Tablero 1'
-      },
-      {
-        id: 1,
-        name: 'Tablero 2'
-      },
-      {
-        id: 2,
-        name: 'Tablero 3'
-      }
-  ]);
+const Home = (props) => {
+  const [open, setOpen] = React.useState(false);
+  const [boards, setBoards] = React.useState(BoardsService.getBoards());
 
-    // const handleTaskCreation = (task) => {
-    //   task.id = tasks.length + 1;
-    //   task.date = Date.now()
-    //   tasks.push(task);
-    //   setTasks(tasks);
-    // }
+    const handleBoardCreation = (board) => {
+      board.id = boards.length + 1;
+      board.date = Date.now()
+      boards.push(board);
+      setBoards(boards);
+    }
+
+    const handleOpenCreateBoardModal = () => {
+      setOpen(true);
+    };
+
+    const handleCloseCreateBoardModal = () => {
+      setOpen(false);
+    }
+
+    const goTo = (id) => {
+      props.history.push('/boards-manager/' + id);
+    }
   
     const handleUpdateBoard = (board) => {
       const foundIndex = boards.findIndex(x => x.id === board.id);
@@ -47,13 +52,22 @@ const Home = () => {
 
     const mapBoards = () => {
       return boards.map((board, key) => {
-        return <ItemCard key={key} item={board}  deleteAction={handleBoardRemoval} updateAction={handleUpdateBoard} />;
+        return <ItemCard key={key} item={board} goTo={goTo} deleteAction={handleBoardRemoval} updateAction={handleUpdateBoard} allowRedirection={true}/>;
       })
     }
 
     return (
-      <div>
+      <>
+        <CreateItemModal open={open} onHandleClose={handleCloseCreateBoardModal} onCreateTask={handleBoardCreation}/>
         <h1> Home </h1>
+            <Button
+              variant="contained" 
+              size="large"
+              className='add-board-button'
+              startIcon={<AddCircleIcon />}
+              onClick={handleOpenCreateBoardModal}>
+                Add board
+            </Button>
         {hasBoards() ?
           <div className="card">
             
@@ -65,8 +79,7 @@ const Home = () => {
             No boards to show
           </h1>
         }
-  
-      </div>
+      </>
     );
   }
   export default Home;

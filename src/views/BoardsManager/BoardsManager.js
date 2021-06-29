@@ -10,12 +10,22 @@ import './BoardsManager.scss';
 
 const BoardsManager = (props) => {
   const [open, setOpen] = React.useState(false);
-  const [tasks, setTasks] = React.useState(TasksService.getTasksByBoardId(props.match.params.id));
+  const [tasks, setTasks] = React.useState([]);
+
+  React.useEffect( () => {
+    TasksService.getTasks().then((response) => {
+      const newTasks = TasksService.getTasksByBoardId(props.match.params.id, response.data);
+      setTasks(newTasks);
+    }).catch( (error) => {
+      alert(error);
+    });
+  }, []);
 
   const handleTaskCreation = (task) => {
     task.id = tasks.length + 1;
     task.date = Date.now();  
     tasks.push(task);
+    debugger;
     setTasks(tasks);
   }
 

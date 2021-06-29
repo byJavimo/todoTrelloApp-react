@@ -1,0 +1,45 @@
+{  
+    "boards": [
+        {
+          "id": 0,
+          "name": "Tablero 1"
+        },
+        {
+          "id": 1,
+          "name": "Tablero 2"
+        },
+        {
+          "id": 2,
+          "name": "Tablero 3"
+        }
+    ],
+    "tasks": [{
+        "id": 0,
+        "status": 0,
+        "name": "Tarea xxxxx",
+        "boardId": 1,
+        "date": 1624982891614
+        },
+        {
+        "id": 1,
+        "status": 2,
+        "name": "Tarea 2",
+        "boardId": 1,
+        "date": 1624982891614
+        },
+        {
+        "id": 2,
+        "status": 2,
+        "name": "Tarea 3",
+        "boardId": 2,
+        "date": 1624982891614
+        },
+        {
+        "id": 3,
+        "status": 2,
+        "name": "Tarea 3",
+        "boardId": 1,
+        "date": 1624982891614
+        }
+    ] 
+  }

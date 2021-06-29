@@ -1,22 +1,8 @@
-const mockedBoards = [
-  {
-    id: 0,
-    name: 'Tablero 1'
-  },
-  {
-    id: 1,
-    name: 'Tablero 2'
-  },
-  {
-    id: 2,
-    name: 'Tablero 3'
-  }
-] 
+const axios = require('axios');
 
 const BoardsService = {
-
   getBoards: function() {
-      return mockedBoards;
+    return axios.get('http://localhost:3000/boards');
   }
 };
 

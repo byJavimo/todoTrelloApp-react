@@ -10,8 +10,18 @@ import './Home.scss';
 
 const Home = (props) => {
   const [open, setOpen] = React.useState(false);
-  const [boards, setBoards] = React.useState(BoardsService.getBoards());
-
+  const [boards, setBoards] = React.useState([]);
+  
+    React.useEffect(() => {
+      try {
+        BoardsService.getBoards().then((response) => {
+          console.log(response.data.results);
+          setBoards(response.data);
+        });
+      } catch (error) {
+        alert(error.message);
+      }
+    },[]);
     const handleBoardCreation = (board) => {
       board.id = boards.length + 1;
       board.date = Date.now()
